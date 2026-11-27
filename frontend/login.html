@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LIFEPRINT | Student Login</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-container">
+
+        <div class="auth-brand">
+            <h1>LIFEPRINT</h1>
+            <p>Your Future, Simulated by AI</p>
+        </div>
+
+        <div class="auth-card">
+
+            <div class="auth-heading">
+                <h2>Welcome Back!</h2>
+                <p>Login to continue your career journey.</p>
+            </div>
+
+            <form id="loginForm">
+
+                <div class="auth-input-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        name="email"
+                        placeholder="Enter your registered email"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+
+                <div class="auth-input-group">
+                    <label for="loginPassword">Password</label>
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        name="password"
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+
+                <div class="auth-checkbox">
+                    <input
+                        type="checkbox"
+                        id="showLoginPassword"
+                    >
+                    <label for="showLoginPassword">
+                        Show password
+                    </label>
+                </div>
+
+                <button type="submit" class="auth-button">
+                    Login to LIFEPRINT →
+                </button>
+
+                <p id="loginMessage" class="auth-message"
+                   role="status"></p>
+
+            </form>
+
+            <div class="auth-switch">
+                <p>New to LIFEPRINT?</p>
+                <a href="signup.html">Create an account</a>
+            </div>
+
+        </div>
+
+        <a href="index.html" class="auth-home-link">
+            ← Back to Home
+        </a>
+
+    </div>
+
+    <script src="js/login.js"></script>
+
+</body>
+</html>

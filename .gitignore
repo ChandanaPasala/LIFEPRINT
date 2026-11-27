@@ -1,0 +1,23 @@
+
+# Python files
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# Database - do not upload personal data
+database/*.db
+database/*.sqlite
+database/*.sqlite3
+
+# Secret and environment files
+.env
+.env.*
+!.env.example
+
+# Editor files
+.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db

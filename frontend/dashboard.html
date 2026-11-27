@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFEPRINT | Advanced Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="dashboard-header">
+    <div>
+        <h1>LIFEPRINT</h1>
+        <p>Your Future, Simulated by AI</p>
+    </div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="profile.html">Edit Profile</a>
+        <button id="logoutButton" class="auth-button">
+    Logout
+</button>
+    </nav>
+</header>
+
+<main class="advanced-dashboard">
+
+    <section class="dashboard-welcome">
+        <p class="dashboard-tag">YOUR PERSONAL CAREER CONTROL CENTRE</p>
+        <h1>Welcome, <span id="dashboardName">Student</span>!</h1>
+        <p>Explore your skills, career opportunities and learning progress.</p>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="dashboard-card">
+        <h2> My Profile</h2>
+        <div class="dashboard-grid">
+            <div><strong>Education</strong><p id="dashEducation">-</p></div>
+            <div><strong>Branch</strong><p id="dashBranch">-</p></div>
+            <div><strong>Career Goal</strong><p id="dashCareer">-</p></div>
+            <div><strong>Interest</strong><p id="dashInterest">-</p></div>
+            <div><strong>Learning Hours</strong><p id="dashHours">-</p></div>
+            <div><strong>Technical Skills</strong><p id="dashSkills">-</p></div>
+        </div>
+    </section>
+
+    <!-- SKILL DNA -->
+    <section class="dashboard-card">
+        <h2> Skill DNA Analysis</h2>
+        <p>Understand how your current skills compare with your selected career.</p>
+        <button id="loadAnalysisButton" class="dashboard-button">
+            Analyze My Skills
+        </button>
+        <div id="dashboardAnalysis" class="dashboard-result">
+            Click the button to view your Skill DNA report.
+        </div>
+        <div id="skillChart" class="analytics-chart"></div>
+    </section>
+
+    <!-- CAREER MATCHER -->
+    <section class="dashboard-card">
+        <h2>Career Matcher</h2>
+        <p>Explore careers that match your current technical skills.</p>
+        <button id="loadCareerButton" class="dashboard-button">
+            Find My Career Matches
+        </button>
+        <div id="dashboardCareers" class="dashboard-result">
+            Your career matches will appear here.
+        </div>
+        <div id="careerChart" class="analytics-chart"></div>
+    </section>
+
+
+<!-- STEP 13: CAREER REPORT -->
+<section class="dashboard-card">
+    <h2>My Career Readiness Report</h2>
+
+    <p>
+        Generate a report containing your profile,
+        career readiness, skills and learning progress.
+    </p>
+
+    <button type="button"
+            id="generateReportButton"
+            class="dashboard-button">
+        Generate My Career Report
+    </button>
+
+    <div id="reportMessage" class="dashboard-result">
+        Your career report will be prepared here.
+    </div>
+</section>
+
+<!-- STEP 13: PROJECT RECOMMENDATIONS -->
+<section class="dashboard-card">
+    <h2> Project Recommendations</h2>
+
+    <p>
+        Discover practical projects that can help you
+        improve your technical skills and portfolio.
+    </p>
+
+    <button type="button"
+            id="projectRecommendationButton"
+            class="dashboard-button">
+        Explore My Projects
+    </button>
+
+    <div id="projectRecommendations" class="dashboard-result">
+        Your recommended projects will appear here.
+    </div>
+</section>
+
+<!-- STEP 13: PERSONALIZED ROADMAP -->
+<section class="dashboard-card">
+    <h2> My Personalized Roadmap</h2>
+
+    <p>
+        Follow these learning steps to prepare for
+        your selected career.
+    </p>
+
+    <div id="personalizedRoadmap" class="dashboard-result">
+        Your learning roadmap will appear here.
+    </div>
+</section>
+
+<!-- PERSONALIZED LEARNING ADVISOR -->
+<section class="dashboard-card">
+    <h2> Personalized Learning Advisor</h2>
+
+    <p>
+        Discover your missing skills and receive practical
+        recommendations based on your selected career.
+    </p>
+
+    <button
+        type="button"
+        id="getRecommendationsButton"
+        class="dashboard-button">
+        Generate My Learning Plan
+    </button>
+
+    <div id="learningRecommendations" class="dashboard-result">
+        Your personalized learning recommendations will appear here.
+    </div>
+</section>
+
+    <!-- FUTURE SCENARIO -->
+    <section class="dashboard-card">
+        <h2> Future Scenario Lab</h2>
+        <p>Explore an illustrative learning scenario based on your chosen inputs.</p>
+
+        <form id="dashboardScenarioForm">
+
+            <label for="dashScenarioSkill">Skill you want to learn</label>
+            <input type="text" id="dashScenarioSkill"
+                   placeholder="Example: JavaScript" required>
+
+            <label for="dashDailyHours">Learning hours per day</label>
+            <select id="dashDailyHours" required>
+                <option value="1">1 hour</option>
+                <option value="2" selected>2 hours</option>
+                <option value="3">3 hours</option>
+                <option value="4">4 hours</option>
+            </select>
+
+            <label for="dashWeeks">Learning duration</label>
+            <select id="dashWeeks" required>
+                <option value="2">2 weeks</option>
+                <option value="4" selected>4 weeks</option>
+                <option value="8">8 weeks</option>
+                <option value="12">12 weeks</option>
+            </select>
+
+            <label for="dashProjects">Projects you plan to complete</label>
+            <select id="dashProjects" required>
+                <option value="0">0 projects</option>
+                <option value="1" selected>1 project</option>
+                <option value="2">2 projects</option>
+                <option value="3">3 projects</option>
+            </select>
+
+            <button type="submit" class="dashboard-button">
+                Simulate My Scenario
+            </button>
+        </form>
+
+        <div id="dashboardScenarioResult" class="dashboard-result">
+            Your simulation results will appear here.
+        </div>
+    </section>
+
+    <!-- LEARNING PROGRESS -->
+    <section class="dashboard-card">
+        <h2> Learning Progress</h2>
+
+        <h3 id="dashProgressPercentage">0% Completed</h3>
+
+        <div class="dashboard-progress-bar">
+            <div id="dashProgressFill"></div>
+        </div>
+
+        <p id="dashProgressCount">0 of 0 tasks completed</p>
+        <div id="progressAnalytics" class="analytics-chart"></div>
+
+        <div id="dashboardProgressTasks"></div>
+
+        <button id="refreshDashboardButton" class="dashboard-button">
+            Refresh Progress
+        </button>
+    </section>
+
+    <p id="dashboardMessage" role="status"></p>
+
+    <div class="dashboard-footer">
+        <a href="profile.html">← Back to Profile</a>
+        <a href="index.html">Back to Home</a>
+    </div>
+
+</main>
+
+<!--<script src="js/auth-guard.js"></script>-->
+<script src="./js/dashboard.js"></script>
+<script src="js/logout.js"></script>
+
+<script src="./js/auth-guard.js"></script>
+<script src="./js/dashboard.js?v=7"></script>
+<script src="js/logout.js"></script>
+</body>
+</html>
+</body>
+</html>
