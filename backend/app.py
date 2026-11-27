@@ -32,12 +32,22 @@ app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
 # CORS configuration
+# ==========================================
+# CORS CONFIGURATION
+# ==========================================
+
+FRONTEND_URL = os.environ.get(
+    "FRONTEND_URL",
+    "http://127.0.0.1:5500"
+)
+
 CORS(
     app,
     supports_credentials=True,
     origins=[
         "http://127.0.0.1:5500",
-        "http://localhost:5500"
+        "http://localhost:5500",
+        FRONTEND_URL
     ]
 )
 
@@ -56,31 +66,6 @@ def get_db_connection():
     connection = sqlite3.connect(DATABASE_PATH)
     connection.row_factory = sqlite3.Row
     return connection
-
-CORS(
-    app,
-    supports_credentials=True,
-    origins=[
-        "http://127.0.0.1:5500",
-        "http://localhost:5500"
-    ]
-)
-# STEP 8: SQLITE DATABASE CONFIGURATION
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-DATABASE_DIR = os.path.join(BASE_DIR, "database")
-
-os.makedirs(DATABASE_DIR, exist_ok=True)
-
-DATABASE_PATH = os.path.join(DATABASE_DIR, "lifeprint.db")
-
-
-def get_db_connection():
-    connection = sqlite3.connect(DATABASE_PATH)
-    connection.row_factory = sqlite3.Row
-    return connection
-
 
 def initialize_database():
 
@@ -1071,4 +1056,10 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+
+    app.run(
+        host="0.0.0.0",
+        port=port,
+        debug=False
+    )

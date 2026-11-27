@@ -65,6 +65,7 @@ async function initializeDashboard() {
         );
 
         continueDashboard();
+      
 
     } catch (error) {
 
@@ -424,37 +425,66 @@ function continueDashboard() {
     setText("dashHours", profile.hours);
     setText("dashSkills", getSkills().join(", "));
 
+    
     // ==================================
     // 2. SKILL DNA ANALYSIS
     // ==================================
 
-    const analysisButton =
-        document.getElementById("loadAnalysisButton");
+    const analysisButton = document.getElementById("loadAnalysisButton");
+    const resultBox = document.getElementById("dashboardAnalysis");
 
     if (analysisButton) {
         analysisButton.addEventListener("click", async function () {
 
-            const resultBox =
-                document.getElementById("dashboardAnalysis");
+            if (!resultBox) {
+                console.error("dashboardAnalysis element not found in dashboard.html");
+                return;
+            }
+
+            if (!profile) {
+                resultBox.textContent = "Please save your profile first.";
+                return;
+            }
+
+            const skills = getSkills();
+            const career = String(profile.career || "").trim().toLowerCase();
 
             resultBox.textContent = "Analyzing your skills...";
 
-            try {
+            console.log("LIFEPRINT ANALYSIS REQUEST:", { skills, career });
 
-                const response = await fetch(window.LIFEPRINT_API_URL + "/analyze", {
+            try {
+                const response = await fetch(API_URL + "/analyze", {
                     method: "POST",
                     credentials: "include",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(profile)
+                    body: JSON.stringify({
+                        skills: skills,
+                        career: career
+                    })
                 });
 
-                const data = await response.json();
+                const responseText = await response.text();
+
+                console.log("ANALYZE HTTP STATUS:", response.status);
+                console.log("ANALYZE SERVER RESPONSE:", responseText);
+
+                let data;
+
+                try {
+                    data = JSON.parse(responseText);
+                } catch {
+                    throw new Error("Server did not return valid JSON.");
+                }
 
                 if (!response.ok) {
-                    throw new Error(data.error || "Analysis failed.");
+                    throw new Error(data.error || "Skill analysis failed.");
                 }
+
+                const matched = data.matched_skills || [];
+                const missing = data.missing_skills || [];
 
                 resultBox.innerHTML = "";
 
@@ -464,44 +494,40 @@ function continueDashboard() {
                 const readiness = document.createElement("p");
                 readiness.textContent =
                     "Career Readiness: " +
-                    (data.readiness ?? 0) + "%";
+                    (data.readiness ?? data.readiness_score ?? 0) + "%";
 
                 const matchedHeading = document.createElement("h3");
                 matchedHeading.textContent = "Matched Skills";
 
-                const matched = document.createElement("p");
-                matched.textContent =
-                    (data.matched_skills || []).join(", ") || "None yet";
+                const matchedText = document.createElement("p");
+                matchedText.textContent = matched.join(", ") || "None yet";
 
                 const missingHeading = document.createElement("h3");
                 missingHeading.textContent = "Skills to Learn";
 
-                const missing = document.createElement("p");
-                missing.textContent =
-                    (data.missing_skills || []).join(", ") || "None";
+                const missingText = document.createElement("p");
+                missingText.textContent = missing.join(", ") || "None";
 
                 resultBox.append(
                     heading,
                     readiness,
                     matchedHeading,
-                    matched,
+                    matchedText,
                     missingHeading,
-                    missing
+                    missingText
                 );
-                displaySkillChart(
-    data.matched_skills || [],
-    data.missing_skills || []
-);
+
+                displaySkillChart(matched, missing);
 
             } catch (error) {
-
+                console.error("Skill DNA error:", error);
                 resultBox.textContent =
-                    "Could not load Skill DNA. Check that Flask is running. " +
-                    error.message;
+                    "Could not load Skill DNA: " + error.message;
             }
         });
     }
 
+  
     // ==================================
     // 3. CAREER MATCHER
     // ==================================
@@ -981,7 +1007,10 @@ if (reportButton) {
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(profile)
+                    body: JSON.stringify({
+    skills: getSkills(),
+    career: String(profile.career || "").trim().toLowerCase()
+})
                 }
             );
 
@@ -1274,13 +1303,22 @@ th {
                     }
                 );
 
-                const data = await response.json();
+               const responseText = await response.text();
 
-                if (!response.ok) {
-                    throw new Error(
-                        data.error || "Scenario simulation failed."
-                    );
-                }
+console.log("ANALYZE STATUS:", response.status);
+console.log("ANALYZE RESPONSE:", responseText);
+
+let data;
+
+try {
+    data = JSON.parse(responseText);
+} catch (error) {
+    throw new Error("Backend returned an invalid response: " + responseText);
+}
+
+if (!response.ok) {
+    throw new Error(data.error || data.message || "Analysis failed.");
+}
 
                 resultBox.innerHTML = "";
 
